@@ -40,7 +40,7 @@ your computer restarts.
    docker compose up --build -d
    ```
 
-4. Open http://127.0.0.1:8000.
+4. Open http://127.0.0.1:8000 (or the `HOST_PORT` selected in `.env`).
 
 Useful Docker commands:
 
@@ -49,6 +49,13 @@ docker compose logs -f       # view service logs
 docker compose down          # stop the service
 docker compose up -d         # start it again
 ```
+
+### If port 8000 is already in use
+
+Stop the earlier local server with `Ctrl+C` in the terminal where you ran
+`python3 app.py`, then run `docker compose up -d` again. Alternatively, change
+`HOST_PORT=8000` to `HOST_PORT=8001` in `.env`, run `docker compose up -d`, and
+open http://127.0.0.1:8001 instead.
 
 The container runs as a non-root user, is read-only, has no Linux capabilities,
 and accepts connections only from your own computer. Do not change the port
