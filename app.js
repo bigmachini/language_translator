@@ -52,6 +52,9 @@ async function runTranslation() {
     } catch {
       status.textContent = 'Translation ready—click it to copy.';
     }
+    message.value = '';
+    count.textContent = '0 / 4000';
+    message.focus();
   } catch (error) {
     status.textContent = error.message;
   } finally {
