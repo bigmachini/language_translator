@@ -18,6 +18,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from flask import Flask, jsonify, request, send_from_directory
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 ROOT = Path(__file__).parent
@@ -155,6 +156,9 @@ def api_translation(message: str) -> dict[str, str]:
 def create_app() -> Flask:
     app = Flask(__name__)
     app.config.update(MAX_CONTENT_LENGTH=MAX_INPUT_CHARS * 4 + 1024)
+    # Enable this only when Nginx is the single trusted reverse-proxy hop.
+    if os.getenv("TRUST_PROXY_HEADERS", "false").lower() == "true":
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
     limiter = RateLimiter(RATE_LIMIT_PER_MINUTE)
 
     @app.after_request

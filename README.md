@@ -61,6 +61,33 @@ The container runs as a non-root user, is read-only, has no Linux capabilities,
 and accepts connections only from your own computer. Do not change the port
 mapping to `0.0.0.0:8000` unless you also add authentication and HTTPS.
 
+## Nginx reverse proxy and Certbot
+
+If Docker is mapped to host port `5800`, use the template at
+`deploy/nginx/language-translator.conf`. It proxies public HTTP traffic to
+`127.0.0.1:5800` and deliberately contains no SSL settings.
+
+1. The supplied configuration is set for `translator.bigmachini.net`.
+2. Install and enable it on the server:
+
+   ```sh
+   sudo cp deploy/nginx/language-translator.conf /etc/nginx/sites-available/language-translator
+   sudo ln -s /etc/nginx/sites-available/language-translator /etc/nginx/sites-enabled/language-translator
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
+
+3. Set `HOST_PORT=5800` and `TRUST_PROXY_HEADERS=true` in `.env`, then restart
+   the container:
+
+   ```sh
+   docker compose up -d
+   ```
+
+4. Once the domain's DNS points to this server and port 80 is reachable, run
+   Certbot's Nginx command for your domain. Certbot can add the SSL server block
+   and HTTP-to-HTTPS redirect afterwards.
+
 ## If translation does not work
 
 - **`OPENAI_API_KEY is not configured`**: stop the app with `Ctrl+C`, run the
