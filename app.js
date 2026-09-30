@@ -46,15 +46,15 @@ async function runTranslation() {
     }
     result.append(resultBlock(copyText));
     result.hidden = false;
+    message.value = '';
+    count.textContent = '0 / 4000';
+    message.focus();
     try {
       await navigator.clipboard.writeText(copyText);
       status.textContent = 'Translated and copied.';
     } catch {
       status.textContent = 'Translation ready—click it to copy.';
     }
-    message.value = '';
-    count.textContent = '0 / 4000';
-    message.focus();
   } catch (error) {
     status.textContent = error.message;
   } finally {
