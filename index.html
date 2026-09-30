@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>English ↔ French</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <main>
+      <h1>English ↔ French</h1>
+      <p class="subtitle">A translator only. Press Enter to translate; Shift+Enter adds a new line.</p>
+      <label for="message">Write in English or French</label>
+      <textarea id="message" maxlength="4000" autofocus placeholder="Type or paste your message here…"></textarea>
+      <div class="actions">
+        <span id="count">0 / 4000</span>
+        <button id="translate" type="button">Translate</button>
+      </div>
+      <p id="status" role="status"></p>
+      <section id="result" hidden aria-live="polite"></section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
